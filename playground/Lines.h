@@ -1,5 +1,5 @@
 #pragma once
 
-typedef struct _Lines Lines;
+typedef struct _Lines *Lines;
 
-Lines *getLines( char *fileName );
+Lines getLines( char *fileName );

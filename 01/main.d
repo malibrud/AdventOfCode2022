@@ -7,17 +7,17 @@ import std.algorithm;
 
 void main()
 {
-    writeln( "PartA = ", partA( "data.txt", "" ) );
-    writeln( "PartB = ", partB( "data.txt", "" ) );
+    writeln( "Part1 = ", part1( "data.txt", "" ) );
+    writeln( "Part2 = ", part2( "data.txt", "" ) );
 }
 
 unittest
 {
-    assert( partA( "test1.txt", "" ) == "24000" );
-    assert( partB( "test1.txt", "" ) == "45000" );
+    assert( part1( "test1.txt", "" ) == "24000" );
+    assert( part2( "test1.txt", "" ) == "45000" );
 }
 
-string partA( string fileName, string param )
+string part1( string fileName, string param )
 {
     auto lines = File( fileName, "r" ).byLine();
     int sum = 0;
@@ -36,7 +36,7 @@ string partA( string fileName, string param )
     return to!string(max);
 }
 
-string partB( string fileName, string param )
+string part2( string fileName, string param )
 {
     auto lines = File( fileName, "r" ).byLine();
     int sum = 0;
