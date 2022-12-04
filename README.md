@@ -28,7 +28,7 @@ Part1 = 69501
 Part2 = 202346
 ```
 
-## [Day 01](https://adventofcode.com/2022/day/1)
+## [Day 02](https://adventofcode.com/2022/day/2)
 
 Again pretty straight forward.  Instead of creating a bunch of `if-else` statements, 
 I approached the problem without branching using modular arithmatic.  For part 1, the 
@@ -57,4 +57,69 @@ The successul result:
 ```
 Part1 = 13565
 Part2 = 12424
+```
+
+## [Day 03](https://adventofcode.com/2022/day/3)
+
+Really struggled to get D to do list comprehension.  For part 1, eventually implemented the `fold` function
+based on the output of `byLine`.  Here is the code:
+
+```d
+
+string part1( string fileName, string param )
+{
+    auto sum = File( fileName, "r" )
+        .byLine
+        .fold!( (res, line) 
+        {
+            auto N = line.length / 2;
+            auto comp1 = line[0..N];
+            auto comp2 = line[N..$];
+            auto c = comp1.filter!( a => comp2.canFind(a)).array[0];
+            int priority = c <= 'Z' ? ( c - 'A' + 27 ) : ( c - 'a' + 1 );
+            return res + priority;
+        })(0);
+    return to!string(sum);
+}
+```
+
+For part 2, I tried to do the same and ran into all kinds of weird behavior.  Eventually settled on
+more of a traditional approach after `setIntersection` didn't seem to be working.  My eventual solution
+verymuch in the spirit of `c` was:
+
+```d
+
+string part2( string fileName, string param )
+{
+    auto fd = File( fileName, "r" );
+    int i;
+    int sum = 0;
+    bool[128] common;
+    while( !fd.eof() )
+    {
+        auto line = fd.readln()[0..$-1];
+
+        bool[128] sack = false;
+        for (int j = 0 ; j < line.length ; j++) sack[line[j]] = true;
+        if (i % 3 == 0) common[] = sack[];
+        for (int j = 'A' ; j <= 'z' ; j++) common[j] &= sack[j];
+        if (i % 3 == 2) 
+        {
+            int c;
+            for (c = 'A' ; c <= 'z' ; c++) if (common[c]) break;
+            sum += c <= 'Z' ? ( c - 'A' + 27 ) : ( c - 'a' + 1 );
+        }
+        i++;
+    }
+    return to!string(sum);
+}
+```
+
+After the experience with these two solutions, I am thinking about switching to another language.
+The high level functionality, seems too brittle and the error messages are not helpful at all.
+
+The successul result:
+```
+Part1 = 7967
+Part2 = 2716
 ```
