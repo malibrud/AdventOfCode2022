@@ -123,3 +123,14 @@ The successul result:
 Part1 = 7967
 Part2 = 2716
 ```
+
+## [Day 04](https://adventofcode.com/2022/day/4)
+
+Pretty straight forward test of overlapping ranges.  Nothing special.  Just mostly reused machinery from prior days.
+No new learning with respect to D.
+
+The successul result:
+```
+Part1 = 471
+Part2 = 888
+```
