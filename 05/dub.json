@@ -1,0 +1,13 @@
+{
+	"name": "main",
+    "description": "Advent of code solution",
+    "authors": ["Mark Brudnak"],
+    "buildTypes": {
+        "debug": {
+            "buildOptions": [ "debugMode", "debugInfo" ]
+        }
+    },
+    "targetType": "executable",
+    "sourceFiles": ["main.d"],
+    "buildOptions-windows": ["debugInfoC"]
+}

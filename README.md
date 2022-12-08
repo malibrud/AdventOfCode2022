@@ -134,3 +134,59 @@ The successul result:
 Part1 = 471
 Part2 = 888
 ```
+
+## [Day 05](https://adventofcode.com/2022/day/5)
+
+Most of the work was involved with reading in the file and parsing the input.  Once read the implementation of
+the moves was pretty straight forward.  In implementing this solution, I learned some about D's dynamic arrays
+and their manipulation.  I particularly liked the concatenation `~=` operation.  It was quite handy.
+I was also able to use slices to do the stack manipulation in part 2.  I was a little disappointed that
+there was no actual stack data structure.  I could have used a linked list, but I figured that random
+access would/might be important in part 2, and it was.
+
+The meat of part 1 is as follows:
+
+```d
+// Do the moves
+auto patt = regex( r"move (\d+) from (\d+) to (\d+)" );
+while ( !file.eof )
+{
+    auto line = file.readln;
+    auto m = line.matchFirst( patt );
+    auto count = to!int( m[1] );
+    auto frIdx = to!int( m[2] ) - 1;
+    auto toIdx = to!int( m[3] ) - 1;
+    
+    for ( int i = 0 ; i < count ; i++)
+    {
+        auto crate = stacks[frIdx][$ - 1];
+        stacks[toIdx] ~= crate;
+        stacks[frIdx].length--;
+    }
+}
+```
+
+The meat of part 2 is as follows:
+
+```d
+// Do the moves
+auto patt = regex( r"move (\d+) from (\d+) to (\d+)" );
+while ( !file.eof )
+{
+    auto line = file.readln;
+    auto m = line.matchFirst( patt );
+    auto count = to!int( m[1] );
+    auto frIdx = to!int( m[2] ) - 1;
+    auto toIdx = to!int( m[3] ) - 1;
+    
+    auto crates = stacks[frIdx][$-count..$];
+    stacks[toIdx] ~= crates;
+    stacks[frIdx].length -= count;
+}
+```
+
+The successul result:
+```
+Part1 = CNSZFDVLJ
+Part2 = QNDWLMGNS
+```
