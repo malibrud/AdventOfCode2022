@@ -190,3 +190,45 @@ The successul result:
 Part1 = CNSZFDVLJ
 Part2 = QNDWLMGNS
 ```
+
+## [Day 06](https://adventofcode.com/2022/day/6)
+
+Searching for a run of distinct characters of different lengths, 4 and 14.  In both cases
+I implemented a parameterized function which took the length of the distinct characters as input.
+At each position, the brute force approach needs to do $N\choose 2$ comparisons.  This of course
+is doing redundant comparisons, because at each step along the way the last $N-1$ characters were
+already compared, but the code ran fast enough and was very straight forward.  Also, when the condition
+$notEqual == false$, I could have broken out of the inner two loops, but this would interfere
+with the previous mentioned efficiency.  Parts 1 and 2 are shown below:
+
+```d
+string part1( string fileName, string param )
+{
+    auto runLen = to!int(param);
+
+    auto line = File( fileName, "r" ).readln;
+
+    int i;
+    for ( i = runLen-1 ; i < line.length ; i++ )
+    {
+        auto notEqual = true;
+        for (int j = i - runLen + 1 ; j <= i ; j++ )
+        for (int k = j + 1          ; k <= i ; k++ )
+            notEqual &= line[j] != line[k];
+        if ( notEqual ) break;
+    }
+
+    return to!string( i+1 );
+}
+
+string part2( string fileName, string param )
+{
+    return part1( fileName, param );
+}
+```
+
+The successul result:
+```
+Part1 = 1210
+Part2 = 3476
+```
